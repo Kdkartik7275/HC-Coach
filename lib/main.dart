@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
+import 'package:hicoach_coach/core/constants/app_pages.dart';
 import 'package:hicoach_coach/core/utils/theme/theme.dart';
+import 'package:hicoach_coach/src/splash/controller/splash_controller.dart';
 
-void main() {
+void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await dotenv.load(fileName: ".env");
+  Get.put(SplashController());
   runApp(const MyApp());
 }
 
@@ -12,7 +21,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final splashController = Get.find<SplashController>();
 
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await splashController.setInitialView();
+      FlutterNativeSplash.remove();
+    });
     return ScreenUtilInit(
       designSize: const Size(375, 852),
       minTextAdapt: true,
@@ -23,8 +37,8 @@ class MyApp extends StatelessWidget {
           title: 'HC Coach',
           debugShowCheckedModeBanner: false,
           theme: theme,
-          // initialRoute: AppPages.initial,
-          // getPages: AppPages.routes,
+          initialRoute: AppPages.initial,
+          getPages: AppPages.routes,
         );
       },
     );

@@ -10,6 +10,6 @@ class AppApis {
   // ---------------- Authentication --------------------
   static final String register = "$baseurl/auth/signup";
   static final String login = "$baseurl/auth/login";
-  static final String verify_token = "$baseurl/auth/verify-token";
-  static final String forgot_password = "$baseurl/auth/forgot-password";
+  static final String verifyToken = "$baseurl/auth/verify-token";
+  static final String forgotPassword = "$baseurl/auth/forgot-password";
 }
