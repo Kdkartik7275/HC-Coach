@@ -158,11 +158,7 @@ class LoginView extends GetView<LoginController> {
                               fontSize: 16.sp,
                             ),
                             recognizer: TapGestureRecognizer()
-                              ..onTap = () => Get.to(
-                                () => Get.toNamed(Routes.SignUp),
-                                transition: Transition.fadeIn,
-                                duration: const Duration(milliseconds: 400),
-                              ),
+                              ..onTap = () => Get.toNamed(Routes.SignUp)
                           ),
                         ],
                       ),

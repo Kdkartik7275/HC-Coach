@@ -1,6 +1,7 @@
 class LocalStorageKeys {
   static const String onboardingCompleted = 'hasCompletedOnboarding';
   static const String isInRegistrationProcess = 'isInRegistrationProcess';
+  static const String dob = 'dob';
   static const String userData = 'userData';
   static const String token = 'token';
 }

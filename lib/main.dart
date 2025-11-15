@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hicoach_coach/core/constants/app_pages.dart';
 import 'package:hicoach_coach/core/utils/theme/theme.dart';
+import 'package:hicoach_coach/src/profile/controller/profile_controller.dart';
 import 'package:hicoach_coach/src/splash/controller/splash_controller.dart';
 
 void main() async {
@@ -13,6 +14,7 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await dotenv.load(fileName: ".env");
   Get.put(SplashController());
+  Get.put(ProfileController());
   runApp(const MyApp());
 }
 

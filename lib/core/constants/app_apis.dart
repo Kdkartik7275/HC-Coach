@@ -12,4 +12,12 @@ class AppApis {
   static final String login = "$baseurl/auth/login";
   static final String verifyToken = "$baseurl/auth/verify-token";
   static final String forgotPassword = "$baseurl/auth/forgot-password";
+
+  // ------------------ Profile -------------------------------
+
+  static String createCoach = "$baseurl/coaches/";
+  static String coachById(String coachId) => "$baseurl/coaches/$coachId";
+  static String updateCoachById(String coachId) => "$baseurl/coaches/$coachId";
+  static String updateCoachTimings(String coachId) =>
+      "$baseurl/coaches/timings/$coachId";
 }

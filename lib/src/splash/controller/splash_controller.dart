@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:hicoach_coach/core/constants/app_pages.dart';
 import 'package:hicoach_coach/core/constants/localstorage_keys.dart';
 import 'package:hicoach_coach/services/authentication/login_services.dart';
+import 'package:hicoach_coach/src/authentication/controllers/signup_controller.dart';
+import 'package:hicoach_coach/src/authentication/views/signup/profile_setup.dart';
 
 class SplashController extends GetxController {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
@@ -24,13 +26,13 @@ class SplashController extends GetxController {
           );
           final Map<String, dynamic> userData = jsonDecode(userDataJson!);
 
-          // Get.offAll(
-          //   () => const StudentProfileSetup(),
-          //   binding: BindingsBuilder(() {
-          //     final controller = Get.put(SignUpController());
-          //     controller.userData.value = userData;
-          //   }),
-          // );
+          Get.offAll(
+            () => const ProfileSetup(),
+            binding: BindingsBuilder(() {
+              final controller = Get.put(SignUpController());
+              controller.userData.value = userData;
+            }),
+          );
           return;
         }
 

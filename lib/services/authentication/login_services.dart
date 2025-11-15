@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:hicoach_coach/core/constants/app_apis.dart';
 import 'package:hicoach_coach/core/constants/localstorage_keys.dart';
 import 'package:hicoach_coach/services/shared_prefs/shared_pref_service.dart';
@@ -29,8 +31,14 @@ class LoginServices {
         final error = jsonDecode(response.body);
         throw error["message"] ?? "Login failed";
       }
+    } on SocketException {
+      throw "Unable to connect to server. Please check your internet or server status.";
+    } on TimeoutException {
+      throw "The connection timed out. Please try again.";
+    } on http.ClientException {
+      throw "Network error. Please try again later.";
     } catch (e) {
-      throw e.toString();
+      throw "Something went wrong. Please try again.";
     }
   }
 
@@ -67,6 +75,7 @@ class LoginServices {
         throw error["message"] ?? "Token verification failed";
       }
     } catch (e) {
+      print(e.toString());
       throw "$e";
     }
   }
