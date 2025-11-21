@@ -1,14 +1,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:hicoach_coach/src/bookings/views/schedule_view.dart';
+import 'package:hicoach_coach/src/home/view/home_view.dart';
 import 'package:hicoach_coach/src/profile/views/coach_profile_view.dart';
 
 
 class BottomNavBarController extends GetxController {
   List studentPages = [
-   Center(child: Text('Home')),
+   HomeView(),
    Center(child: Text('Favourites')),
-   ScheduleView(),
+   Center(child: Text('Chats')),
+   
    Center(child: Text('Notifications')),
    CoachProfileView(),
   ];

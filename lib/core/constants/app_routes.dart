@@ -13,6 +13,7 @@ abstract class Routes {
   static const BottomNavBar = _Paths.BottomNavBar;
   static const EditProfile = _Paths.EditProfile;
   static const TrainingTimings = _Paths.TrainingTimings;
+  static const CreateTrainingProgram = _Paths.CreateTrainingProgram;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const BottomNavBar = '/bottom-navbar';
   static const EditProfile = '/edit-profile';
   static const TrainingTimings = '/training-timings';
+  static const CreateTrainingProgram = '/create-training-program';
 }

@@ -13,6 +13,8 @@ import 'package:hicoach_coach/src/onboarding/binding/onboarding_binding.dart';
 import 'package:hicoach_coach/src/onboarding/view/onboarding_view.dart';
 import 'package:hicoach_coach/src/profile/bindings/edit_profile_binding.dart';
 import 'package:hicoach_coach/src/profile/views/edit_profile_view.dart';
+import 'package:hicoach_coach/src/training_programs/bindings/create_program_binding.dart';
+import 'package:hicoach_coach/src/training_programs/view/create_training_program.dart';
 
 part 'app_routes.dart';
 
@@ -64,6 +66,7 @@ class AppPages {
 
     //   // ----------------- BOOKINGS -----------------
        GetPage(name: _Paths.TrainingTimings, page: () => const TrainingTimings(),binding: TrainingTimingsBinding()),
+       GetPage(name: _Paths.CreateTrainingProgram, page: () =>  CreateProgramScreen(),binding: CreateTrainingProgramBinding()),
     //   GetPage(name: _Paths.PAYMENT, page: () => const PaymentView()),
     //   GetPage(name: _Paths.SUCCESSBOOKING, page: () => const SuccessView()),
     //   GetPage(

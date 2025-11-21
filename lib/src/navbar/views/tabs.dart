@@ -75,12 +75,12 @@ class CoachTabs extends GetView<BottomNavBarController> {
               ),
               BottomNavigationBarItem(
                 icon: Image.asset(
-                  AppIcons.calender_fill,
+                  AppIcons.messages,
                   height: 30.h,
                   width: 30.w,
                 ),
                 activeIcon: Image.asset(
-                  AppIcons.calender_fill,
+                  AppIcons.messages,
                   height: 30.h,
                   width: 30.w,
                   color: AppColors.primary,

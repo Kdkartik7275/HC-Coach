@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:hicoach_coach/common/dialogs/error_dialog.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:image_picker/image_picker.dart';
@@ -39,9 +38,8 @@ Future<File?> pickImage({bool camera = false}) async {
 
     return File(pickedFile!.path);
   } catch (e) {
-    showErrorDialog(e.toString());
-  }
   return null;
+  }
 }
 
 double _degreesToRadians(double degrees) {
