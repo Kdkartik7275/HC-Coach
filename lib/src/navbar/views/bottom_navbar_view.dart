@@ -18,7 +18,9 @@ class _BottomNavbarViewState extends State<BottomNavbarView> {
 
   @override
   void initState() {
-    controller.fetchCurrentUser();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.fetchCurrentUser();
+    });
 
     super.initState();
   }

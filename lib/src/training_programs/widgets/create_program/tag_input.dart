@@ -24,6 +24,10 @@ class TagInput extends StatelessWidget {
         Expanded(
           child: TextField(
             controller: controller,
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: 14.sp,
+            ),
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: theme.textTheme.titleSmall?.copyWith(

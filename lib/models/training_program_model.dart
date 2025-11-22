@@ -15,12 +15,13 @@ class TrainingProgram {
   final String description;
   final String? thumbnailUrl;
   final String coachId;
+  final String coachName;
 
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
   TrainingProgram({
-     this.id,
+    this.id,
     required this.title,
     required this.sport,
     required this.level,
@@ -34,6 +35,7 @@ class TrainingProgram {
     required this.description,
     this.thumbnailUrl,
     required this.coachId,
+    required this.coachName,
     this.createdAt,
     this.updatedAt,
   });
@@ -51,18 +53,20 @@ class TrainingProgram {
       price: (json['price'] ?? 0).toDouble(),
 
       slots: List<String>.from(json['slots'] ?? []),
-      learningOutcomes:
-          List<String>.from(json['learningOutcomes'] ?? []),
+      learningOutcomes: List<String>.from(json['learningOutcomes'] ?? []),
       requirements: List<String>.from(json['requirements'] ?? []),
 
       description: json['description'] ?? "",
       thumbnailUrl: json['thumbnailUrl'],
       coachId: json['coachId'] ?? "",
+      coachName: json['coachName'] ?? "",
 
-      createdAt:
-          json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-      updatedAt:
-          json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'])
+          : null,
     );
   }
 
@@ -82,6 +86,7 @@ class TrainingProgram {
       "description": description,
       "thumbnailUrl": thumbnailUrl,
       "coachId": coachId,
+      "coachName": coachName,
     };
   }
 }

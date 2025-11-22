@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hicoach_coach/common/indicators/progress_indicators.dart';
 import 'package:hicoach_coach/core/constants/colors.dart';
+import 'package:hicoach_coach/models/training_program_model.dart';
 import 'package:hicoach_coach/src/profile/controller/profile_controller.dart';
 import 'package:hicoach_coach/src/training_programs/controller/create_training_program_controller.dart';
 import 'package:hicoach_coach/src/training_programs/widgets/create_program/create_program_button.dart';
@@ -16,13 +17,38 @@ import 'package:hicoach_coach/src/training_programs/widgets/create_program/tag_i
 import 'package:hicoach_coach/src/training_programs/widgets/create_program/upload_thumbnail.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
-class CreateProgramScreen extends GetView<CreateTrainingProgramController> {
+class CreateProgramScreen extends StatefulWidget {
   const CreateProgramScreen({super.key});
+
+  @override
+  State<CreateProgramScreen> createState() => _CreateProgramScreenState();
+}
+
+class _CreateProgramScreenState extends State<CreateProgramScreen> {
+  final coach = Get.find<ProfileController>().user;
+
+  final controller = Get.find<CreateTrainingProgramController>();
+
+ late bool isEdit;
+ late TrainingProgram trainingProgram;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final args = Get.arguments ?? {};
+
+     isEdit = args['isEdit'] ?? false;
+
+    if (isEdit) {
+      trainingProgram = args['program'];
+      controller.loadProgram(trainingProgram);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final coach = Get.find<ProfileController>().user;
 
     return Scaffold(
       backgroundColor: AppColors.filled,
@@ -238,8 +264,11 @@ class CreateProgramScreen extends GetView<CreateTrainingProgramController> {
 
                 SizedBox(height: 24.h),
                 CreateProgramButton(
-                  onPressed: () =>
-                      controller.createTrainingProgram(coach!.userId),
+                  onPressed: () =>isEdit ? controller.updateTrainingProgram(trainingProgram.id!): controller.createTrainingProgram(
+                    coach!.userId,
+                    coach!.fullName,
+                  
+                  ), isEditing: isEdit,
                 ),
                 SizedBox(height: 20.h),
               ],

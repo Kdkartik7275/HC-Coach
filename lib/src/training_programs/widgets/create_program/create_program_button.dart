@@ -1,11 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:hicoach_coach/core/constants/colors.dart';
 
 class CreateProgramButton extends StatelessWidget {
   final VoidCallback onPressed;
+  final bool isEditing;
 
-  const CreateProgramButton({super.key, required this.onPressed});
+  const CreateProgramButton({
+    super.key,
+    required this.onPressed,
+    required this.isEditing,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +22,7 @@ class CreateProgramButton extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
         gradient: LinearGradient(
-          colors: [
-            AppColors.primary,
-            AppColors.primary.withOpacity(0.8),
-          ],
+          colors: [AppColors.primary, AppColors.primary.withOpacity(0.8)],
         ),
       ),
       child: ElevatedButton(
@@ -28,7 +32,7 @@ class CreateProgramButton extends StatelessWidget {
           shadowColor: Colors.transparent,
         ),
         child: Text(
-          "Create Program",
+          isEditing ? "Edit Program" : "Create Program",
           style: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w600,

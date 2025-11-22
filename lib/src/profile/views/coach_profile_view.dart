@@ -5,10 +5,11 @@ import 'package:get/get.dart';
 import 'package:hicoach_coach/common/indicators/progress_indicators.dart';
 import 'package:hicoach_coach/src/profile/controller/profile_controller.dart';
 import 'package:hicoach_coach/src/profile/widgets/about_tabs.dart';
-import 'package:hicoach_coach/src/profile/widgets/coach_pricings.dart';
 import 'package:hicoach_coach/src/profile/widgets/coach_profile_header.dart';
 import 'package:hicoach_coach/src/profile/widgets/edit_share_button.dart';
 import 'package:hicoach_coach/src/profile/widgets/info.dart';
+import 'package:hicoach_coach/src/training_programs/controller/training_programs_controller.dart';
+import 'package:hicoach_coach/src/training_programs/view/coach_training_programs.dart';
 
 import 'package:loading_overlay/loading_overlay.dart';
 
@@ -23,6 +24,14 @@ class _CoachProfileViewState extends State<CoachProfileView> {
   late double height, width;
 
   final controller = Get.find<ProfileController>();
+  late TrainingProgramsController trainingProgramsController;
+
+  @override
+  void initState() {
+    super.initState();
+    trainingProgramsController = Get.put(TrainingProgramsController());
+    trainingProgramsController.getTrainingPrograms(controller.user!.userId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +51,7 @@ class _CoachProfileViewState extends State<CoachProfileView> {
               children: [
                 // --------- PROFILE HEADER ---------------
                 CoachProfileHeader(coach: coach, controller: controller),
-                 SizedBox(height: 25.h),
+                SizedBox(height: 25.h),
 
                 // ------------ PROFILE BUTTONS
                 const EditAndShareProfileButton(),
@@ -52,11 +61,11 @@ class _CoachProfileViewState extends State<CoachProfileView> {
 
                 // TAB BAR BODY
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 20.w),
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: controller.coachInfoSelectedIndex.value == 0
                       ? CoachResumeWidget(coach: coach)
                       : controller.coachInfoSelectedIndex.value == 1
-                      ? CoachPricingWidget(coach: coach)
+                      ? CoachPrograms()
                       : const SizedBox(),
                 ),
               ],

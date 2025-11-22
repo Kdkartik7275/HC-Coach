@@ -19,7 +19,7 @@ class AppApis {
       "$baseurl/coaches/timings/$coachId";
 
   // ------------------ Training Programs --------------------
-  static String createTrainingProgram = "$baseurl/training-program/";
+  static String createTrainingProgram = "$baseurl/training-program/create";
 
   static String updateTrainingProgram(String programId) =>
       "$baseurl/training-program/$programId";
