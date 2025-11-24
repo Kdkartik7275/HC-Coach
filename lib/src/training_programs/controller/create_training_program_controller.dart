@@ -143,6 +143,8 @@ class CreateTrainingProgramController extends GetxController {
       if (res != null) {
         showSuccessDialog("Training Program Created Successfully!");
         resetForm();
+        Get.find<TrainingProgramsController>().updateTrainingProgram(res);
+        Get.back();
       }
     } catch (e) {
       _error("Something went wrong. Try again.");
