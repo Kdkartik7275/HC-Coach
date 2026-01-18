@@ -6,32 +6,32 @@ class TTextTheme {
   TTextTheme._();
 
   static TextTheme get lightTextTheme => TextTheme(
-    headlineLarge: GoogleFonts.raleway(
+    headlineLarge: GoogleFonts.aBeeZee(
       fontSize: 32,
       fontWeight: FontWeight.w900,
       color: AppColors.black,
     ),
-    headlineMedium: GoogleFonts.raleway(
+    headlineMedium: GoogleFonts.aBeeZee(
       fontSize: 30,
       fontWeight: FontWeight.w700,
       color: AppColors.black,
     ),
-    headlineSmall: GoogleFonts.raleway(
+    headlineSmall: GoogleFonts.aBeeZee(
       fontSize: 24,
       fontWeight: FontWeight.w500,
       color: AppColors.black,
     ),
-    titleLarge: GoogleFonts.raleway(
+    titleLarge: GoogleFonts.aBeeZee(
       fontSize: 16,
       fontWeight: FontWeight.w500,
       color: AppColors.black,
     ),
-    titleMedium: GoogleFonts.raleway(
+    titleMedium: GoogleFonts.aBeeZee(
       fontSize: 19,
       fontWeight: FontWeight.w600,
       color: AppColors.black,
     ),
-    titleSmall: GoogleFonts.raleway(
+    titleSmall: GoogleFonts.aBeeZee(
       fontSize: 14,
       fontWeight: FontWeight.w600,
       color: AppColors.black,

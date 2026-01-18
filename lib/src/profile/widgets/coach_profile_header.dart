@@ -2,7 +2,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hicoach_coach/common/containers/rounded_container.dart';
 import 'package:hicoach_coach/common/image/network_image.dart';
 import 'package:hicoach_coach/common/preview/preview_image.dart';
 import 'package:hicoach_coach/core/constants/colors.dart';
@@ -49,7 +48,7 @@ class _CoachProfileHeaderState extends State<CoachProfileHeader> {
             itemBuilder: (context, index) {
               return TCachedNetworkImage(
                 onTap: () =>
-                    showImageOverlay(context, widget.coach.profileURL!),
+                    showImageOverlay(context, widget.coach.profileURL!,index),
                 profileURL: widget.coach.profileURL![index],
                 height: height * 0.28,
                 radius: 0,
@@ -70,8 +69,8 @@ class _CoachProfileHeaderState extends State<CoachProfileHeader> {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Colors.black.withOpacity(0.1),
-                    Colors.black.withOpacity(0.4),
+                    Colors.black.withValues(alpha: .1),
+                    Colors.black.withValues(alpha: .6),
                   ],
                 ),
               ),
@@ -79,8 +78,8 @@ class _CoachProfileHeaderState extends State<CoachProfileHeader> {
           ),
 
           // USERNAME AND COACHING AREAS
-          Positioned(
-            bottom: 30,
+           Positioned(
+            bottom: 20,
             left: 20,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,33 +90,17 @@ class _CoachProfileHeaderState extends State<CoachProfileHeader> {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(
                     context,
-                  ).textTheme.headlineSmall!.copyWith(color: AppColors.white),
+                  ).textTheme.titleMedium!.copyWith(color: AppColors.white),
                 ),
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 300.w),
-                  child: Wrap(
-                    spacing: 10.0,
-                    runSpacing: 5,
-                    alignment: WrapAlignment.start,
-                    children: List.generate(
-                      widget.coach.coachingAreas?.length ?? 0,
-                      (index) {
-                        return TRoundedContainer(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w),
-                          radius: 5.r,
-
-                          child: Text(
-                            widget.coach.coachingAreas![index].label,
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.titleSmall!.copyWith(fontSize: 12.sp,fontWeight: FontWeight.w400),
-                          ),
-                        );
-                      },
-                    ),
+                Text(
+                  '${widget.coach.sports.first} Coach',
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.white
                   ),
                 ),
               ],

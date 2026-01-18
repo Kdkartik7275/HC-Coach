@@ -1,5 +1,5 @@
 class AppStrings {
-  static const appName = 'HiCoach';
+  static const appName = 'Mentora';
 
   static const login = 'Log In';
   static const loginSubtitle =

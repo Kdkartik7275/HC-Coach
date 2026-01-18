@@ -21,12 +21,12 @@ class SectionHeader extends StatelessWidget {
       children: [
         Text(
           title,
-          style: theme.titleMedium?.copyWith(fontSize: 17.sp),
+          style: theme.titleLarge?.copyWith(fontSize: 16.sp,fontWeight: FontWeight.w500),
         ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
           decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.1),
+            color: AppColors.primary.withValues(alpha: .1),
             borderRadius: BorderRadius.circular(8.r),
           ),
           child: Text(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:hicoach_coach/common/dialogs/error_dialog.dart';
 import 'package:hicoach_coach/common/dialogs/success_dialog.dart';
+import 'package:hicoach_coach/core/constants/localstorage_keys.dart';
 import 'package:hicoach_coach/models/coach.dart';
 import 'package:hicoach_coach/models/timings.dart';
 import 'package:hicoach_coach/services/profile/profile_service.dart';
@@ -20,6 +22,7 @@ class TimingsController extends GetxController {
 
   final services = ProfileService();
   final coach = Get.find<ProfileController>().user as Coach;
+  final storage = FlutterSecureStorage();
 
   @override
   void onInit() {
@@ -135,9 +138,10 @@ class TimingsController extends GetxController {
     loading.value = true;
 
     try {
+      final token = await storage.read(key: LocalStorageKeys.token) ?? "";
       await services.updateCoach({
         'timings': timings.value.map((timing) => timing.toMap()).toList(),
-      }, coachId);
+      }, coachId,token);
       coach.timings = timings.value;
 
       showSuccessDialog('Schedules updated successfully');

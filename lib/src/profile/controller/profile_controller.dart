@@ -35,6 +35,7 @@ class ProfileController extends GetxController {
 
   Future<Coach?> fetchCoachByID(String id) async {
     try {
+
       Coach? coach = await services.getCoachById(id);
       return coach;
     } catch (e) {
@@ -62,7 +63,7 @@ class ProfileController extends GetxController {
     }
   }
 
-  fetchCurrentUser() async {
+  Future<void> fetchCurrentUser() async {
     try {
       profileLoading.value = true;
       errorFetchingData.value = false;
@@ -99,11 +100,11 @@ class ProfileController extends GetxController {
     }
   }
 
-  updateUser(dynamic user) {
+  void updateUser(dynamic user) {
     _user.value = user;
   }
 
-  updateCoachInfoIndex(int index) {
+  void updateCoachInfoIndex(int index) {
     coachInfoSelectedIndex.value = index;
   }
 

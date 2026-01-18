@@ -7,13 +7,8 @@ import 'package:hicoach_coach/common/image/network_image.dart';
 import 'package:hicoach_coach/common/indicators/progress_indicators.dart';
 import 'package:hicoach_coach/core/constants/colors.dart';
 import 'package:hicoach_coach/src/profile/controller/edit_profile_controller.dart';
-import 'package:hicoach_coach/src/profile/widgets/add_package_dialog.dart';
-import 'package:hicoach_coach/src/profile/widgets/add_price_dialog.dart';
 import 'package:hicoach_coach/src/profile/widgets/coach_info_tab.dart';
 import 'package:hicoach_coach/src/profile/widgets/key_value.dart';
-import 'package:hicoach_coach/src/profile/widgets/location_search_field.dart';
-import 'package:hicoach_coach/src/profile/widgets/packages.dart';
-import 'package:hicoach_coach/src/profile/widgets/pricings.dart';
 
 import 'package:loading_overlay/loading_overlay.dart';
 
@@ -28,7 +23,7 @@ class EditProfileView extends GetView<EditProfileController> {
           'Edit Profile',
           style: Theme.of(
             context,
-          ).textTheme.titleMedium!.copyWith(fontSize: 18.sp),
+          ).textTheme.titleLarge!.copyWith(fontSize: 16.sp),
         ),
         actions: [
           TextButton(
@@ -36,10 +31,11 @@ class EditProfileView extends GetView<EditProfileController> {
               controller.updateCoachProfileInfo();
             },
             child: Text(
-              'Done',
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge!.copyWith(color: AppColors.primary),
+              'Save',
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: AppColors.primary,
+                fontSize: 16.sp,
+              ),
             ),
           ),
         ],
@@ -65,14 +61,17 @@ class EditProfileView extends GetView<EditProfileController> {
                         children: [
                           Row(
                             children: List.generate(
-                              controller.profiles.value.length,
+                              controller.profiles.length,
                               (index) => Padding(
                                 padding: EdgeInsets.only(right: 10.w),
-                                child: TCachedNetworkImage(
-                                  radius: 0,
-                                  profileURL: controller.profiles.value[index],
-                                  height: 130.h,
-                                  width: 110.w,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  child: TCachedNetworkImage(
+                                    radius: 12.r,
+                                    profileURL: controller.profiles[index],
+                                    height: 130.h,
+                                    width: 110.w,
+                                  ),
                                 ),
                               ),
                             ),
@@ -113,71 +112,115 @@ class EditProfileView extends GetView<EditProfileController> {
                     hintText: 'Postal Code (For nearby students)',
                     title: 'Location',
                     controller: controller.location,
+                    onChanged: (value) => controller.onLocationChanged(value),
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 10.h),
+                  Obx(
+                    () => controller.locationSuggestions.isEmpty
+                        ? const SizedBox.shrink()
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: controller.locationSuggestions.length,
+                            itemBuilder: (context, index) {
+                              final suggestion =
+                                  controller.locationSuggestions[index];
 
-                  // COACHING AREAS
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 500.0.w),
-                    child: Wrap(
-                      spacing: 10.0,
-                      runSpacing: 10.0,
-                      alignment: WrapAlignment.start,
-                      children: List.generate(
-                        controller.coachingAreas.value.length,
-                        (index) {
-                          return TRoundedContainer(
-                            height: 35.h,
-                            width: 150.w,
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            backgroundColor: AppColors.primary,
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              controller.coachingAreas.value[index].label,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.titleLarge!,
+                              final query = controller.location.text.trim();
+
+                              final title = suggestion.title;
+                              final highlightLength =
+                                  title.toLowerCase().startsWith(
+                                    query.toLowerCase(),
+                                  )
+                                  ? query.length
+                                  : 0;
+
+                              return GestureDetector(
+                                onTap: () =>
+                                    controller.selectLocation(suggestion),
+                                child: ListTile(
+                                  leading: const Icon(
+                                    Icons.location_on,
+                                    color: AppColors.primary,
+                                  ),
+                                  title: Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        if (highlightLength > 0)
+                                          TextSpan(
+                                            text: title.substring(
+                                              0,
+                                              highlightLength,
+                                            ),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge!
+                                                .copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: AppColors.primary,
+                                                ),
+                                          ),
+                                        TextSpan(
+                                          text: title.substring(
+                                            highlightLength,
+                                          ),
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.titleLarge,
+                                        ),
+                                      ],
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  subtitle: Text(
+                                    suggestion.subtitle,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+
+                  GestureDetector(
+                    onTap: () => controller.getCurrentLocation(),
+                    child: TRoundedContainer(
+                      height: 45.h,
+                      width: double.infinity,
+                      backgroundColor: AppColors.primary.withValues(alpha: .1),
+                      radius: 12.r,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(12.r),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.my_location,
+                              color: AppColors.primary,
                             ),
-                          );
-                        },
+                            SizedBox(width: 8.w),
+                            Text(
+                              'Use Current Location',
+                              style: Theme.of(context).textTheme.titleLarge!
+                                  .copyWith(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-
-                  SizedBox(
-                    height: controller.coachingAreas.value.isNotEmpty
-                        ? 20.h
-                        : 0,
-                  ),
-
-                  // ----------- LOCATION SEARCH FIELD --------------
-                  SearchAreasField(controller: controller),
-
-                  // SUGGESTIONS
-                  if (controller.suggestions.value.isNotEmpty)
-                    ...List.generate(controller.suggestions.value.length, (
-                      index,
-                    ) {
-                      return GestureDetector(
-                        onTap: () {
-                          controller.addAreas(
-                            controller.suggestions.value[index],
-                          );
-                        },
-                        child: TRoundedContainer(
-                          height: 30.h,
-                          // backgroundColor: AppColors.filled,
-                          padding: EdgeInsets.symmetric(horizontal: 12.w),
-                          margin: EdgeInsets.only(top: 10.h),
-                          radius: 0,
-                          child: Text(
-                            controller.suggestions.value[index],
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ),
-                      );
-                    }),
-                  SizedBox(height: 40.h),
+                  SizedBox(height: 12.h),
                   InfoTab(
                     hintText:
                         'Tell us about yourself and your teaching style...',
@@ -211,15 +254,18 @@ class EditProfileView extends GetView<EditProfileController> {
                         children: [
                           Row(
                             children: List.generate(
-                              controller.certifications.value.length,
+                              controller.certifications.length,
                               (index) => Padding(
                                 padding: const EdgeInsets.only(right: 10),
-                                child: TCachedNetworkImage(
-                                  profileURL:
-                                      controller.certifications.value[index],
-                                  radius: 0,
-                                  height: 150.h,
-                                  width: 120.w,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  child: TCachedNetworkImage(
+                                    profileURL:
+                                        controller.certifications[index],
+                                    radius: 0,
+                                    height: 150.h,
+                                    width: 120.w,
+                                  ),
                                 ),
                               ),
                             ),
@@ -242,65 +288,7 @@ class EditProfileView extends GetView<EditProfileController> {
                       ),
                     ),
                   ),
-
-                  // --------------- PRICING ------------------
-                  SizedBox(height: 20.h),
-                  Text(
-                    'Pricing',
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-
-                  // SHOW ALL PRICINGS
-                  Pricings(controller: controller),
-                  SizedBox(height: 10.h),
-
-                  // BUTTON TO ADD PRICING
-                  ElevatedButton(
-                    onPressed: () {
-                      Get.dialog(AddPricingDialog(controller: controller));
-                    },
-                    child: Text(
-                      'Add Pricing',
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.white,
-                      ),
-                    ),
-                  ),
-
-                  // ---------------- PACKAGES --------------------
-                  SizedBox(height: 20.h),
-                  if (controller.prices.value.isNotEmpty) ...[
-                    Text(
-                      'Packages',
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-
-                    // SHOW ALL PACKAGES
-                    Packages(controller: controller),
-                    SizedBox(height: 10.h),
-
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.dialog(AddPackageDialog(controller: controller));
-                      },
-                      child: Text(
-                        'Add Package',
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ),
-                  ],
+                  SizedBox(height: 30.h),
                 ],
               ),
             ),

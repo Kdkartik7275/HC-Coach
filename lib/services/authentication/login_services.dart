@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/widgets.dart';
 import 'package:hicoach_coach/core/constants/app_apis.dart';
 import 'package:hicoach_coach/core/constants/localstorage_keys.dart';
 import 'package:hicoach_coach/services/shared_prefs/shared_pref_service.dart';
@@ -38,7 +39,8 @@ class LoginServices {
     } on http.ClientException {
       throw "Network error. Please try again later.";
     } catch (e) {
-      throw "Something went wrong. Please try again.";
+      debugPrint(e.toString());
+      throw e.toString();
     }
   }
 

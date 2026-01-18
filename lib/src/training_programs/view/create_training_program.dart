@@ -44,6 +44,9 @@ class _CreateProgramScreenState extends State<CreateProgramScreen> {
       trainingProgram = args['program'];
       controller.loadProgram(trainingProgram);
     }
+    if(coach != null){
+      controller.sportC.text = coach!.sports.first;
+    }
   }
 
   @override
@@ -61,7 +64,7 @@ class _CreateProgramScreenState extends State<CreateProgramScreen> {
           icon: Icon(CupertinoIcons.back, color: AppColors.text),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text("Create Program", style: theme.textTheme.titleMedium),
+        title: Text(isEdit? "Edit Program": "Create Program", style: theme.textTheme.titleLarge),
       ),
       body: Obx(() {
         return LoadingOverlay(
@@ -78,6 +81,7 @@ class _CreateProgramScreenState extends State<CreateProgramScreen> {
                   children: [
                     LabeledTextField(
                       label: "Program Title",
+                      hint: 'Enter Program Title',
                       controller: controller.titleC,
                     ),
                     SizedBox(height: 14.h),
@@ -120,6 +124,7 @@ class _CreateProgramScreenState extends State<CreateProgramScreen> {
                         Expanded(
                           child: LabeledTextField(
                             label: "Total Sessions",
+                            hint: 'Total Sessions',
                             controller: controller.sessionsC,
                             keyboard: TextInputType.number,
                           ),
@@ -177,6 +182,7 @@ class _CreateProgramScreenState extends State<CreateProgramScreen> {
                   children: [
                     LabeledTextField(
                       label: "Program Price",
+                      hint: 'Enter Program Price',
                       controller: controller.priceC,
                       keyboard: TextInputType.number,
                       prefix: "₹",

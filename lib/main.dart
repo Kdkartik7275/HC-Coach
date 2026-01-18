@@ -18,17 +18,32 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final splashController = Get.find<SplashController>();
+  State<MyApp> createState() => _MyAppState();
+}
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await splashController.setInitialView();
-      FlutterNativeSplash.remove();
-    });
+class _MyAppState extends State<MyApp> {
+
+  bool _ranOnce = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_ranOnce) {
+      _ranOnce = true;
+      final splashController = Get.find<SplashController>();
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await splashController.setInitialView();
+        FlutterNativeSplash.remove();
+      });
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+   
     return ScreenUtilInit(
       designSize: const Size(375, 852),
       minTextAdapt: true,

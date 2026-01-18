@@ -206,7 +206,7 @@ class ScheduleSwitch extends StatelessWidget {
       child: Switch(
         value: value,
         onChanged: onChanged,
-        activeColor: AppColors.white,
+        activeThumbColor: AppColors.white,
         activeTrackColor: AppColors.primary,
         inactiveTrackColor: AppColors.border,
         inactiveThumbColor: AppColors.white,

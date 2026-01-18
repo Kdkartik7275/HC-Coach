@@ -61,13 +61,7 @@ class NoProgramsFound extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.primary,
                 borderRadius: BorderRadius.circular(14),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primary.withOpacity(0.25),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
+               
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,

@@ -9,12 +9,12 @@ class TTextFormFieldTheme {
     errorMaxLines: 3,
     prefixIconColor: const Color.fromRGBO(0, 0, 0, 0.5),
     suffixIconColor: const Color.fromRGBO(0, 0, 0, 0.5),
-    labelStyle: GoogleFonts.raleway(
+    labelStyle: GoogleFonts.aBeeZee(
       fontSize: 14,
       fontWeight: FontWeight.w400,
       color: AppColors.hintText,
     ),
-    hintStyle: GoogleFonts.raleway(
+    hintStyle: GoogleFonts.aBeeZee(
       fontSize: 14,
       fontWeight: FontWeight.w400,
       color: AppColors.hintText,

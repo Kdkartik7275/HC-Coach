@@ -21,7 +21,7 @@ class InfoTab extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
             fontWeight: FontWeight.w500,
             fontSize: 16.sp,
           ),
@@ -39,14 +39,18 @@ class InfoTab extends StatelessWidget {
             maxLines: null,
             maxLength: null,
             controller: controller,
-             style: Theme.of(
-            context,
-          ).textTheme.titleSmall!.copyWith(color: AppColors.text),
+            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+              color: AppColors.textLighter,
+              fontWeight: FontWeight.normal,
+              letterSpacing: .4,
+            ),
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: Theme.of(
-                context,
-              ).textTheme.titleSmall!.copyWith(color: AppColors.text),
+              hintStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
+                color: AppColors.textLighter,
+                fontWeight: FontWeight.normal,
+                letterSpacing: .4,
+              ),
               disabledBorder: InputBorder.none,
               enabledBorder: InputBorder.none,
               errorBorder: InputBorder.none,

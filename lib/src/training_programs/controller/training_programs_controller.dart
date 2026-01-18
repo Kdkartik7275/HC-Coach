@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:hicoach_coach/common/dialogs/error_dialog.dart';
+import 'package:hicoach_coach/core/constants/localstorage_keys.dart';
 import 'package:hicoach_coach/models/training_program_model.dart';
 import 'package:hicoach_coach/services/training_program/training_program_services.dart';
 
@@ -11,13 +12,13 @@ class TrainingProgramsController extends GetxController {
   RxList<TrainingProgram> trainingPrograms = RxList([]);
 
   final _service = TrainingProgramServices();
+  final locaStorage = FlutterSecureStorage();
 
   Future<void> getTrainingPrograms(String coachId) async {
     try {
       isLoading.value = true;
 
       final programs = await _service.fetchTrainingProgram(coachId);
-      debugPrint("$programs");
 
       trainingPrograms.value = programs;
     } catch (e) {
@@ -37,18 +38,20 @@ class TrainingProgramsController extends GetxController {
 
       trainingPrograms.refresh();
     } else {
-      debugPrint("⚠ Program with ID ${updatedProgram.id} not found!");
+      trainingPrograms.add(updatedProgram);
+      trainingPrograms.refresh();
     }
   }
 
   void deleteTrainingProgram(String programId) async {
     try {
+      final authToken =
+          await locaStorage.read(key: LocalStorageKeys.token) ?? '';
       deleting.value = true;
 
-      await _service.deleteTrainingProgram(programId);
+      await _service.deleteTrainingProgram(programId, authToken);
       trainingPrograms.removeWhere((program) => program.id == programId);
       trainingPrograms.refresh();
-    
 
       Get.back();
     } catch (e) {

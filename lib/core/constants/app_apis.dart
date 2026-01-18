@@ -29,4 +29,22 @@ class AppApis {
 
   static String programsByCoachId(String coachId) =>
       "$baseurl/training-program/coach/$coachId";
+
+  static String coachEnrollments(String coachId) =>
+      "$baseurl/booking/coach/$coachId";
+
+  static String coachEnrollmentDecision(String enrollmentId) =>
+      "$baseurl/booking/$enrollmentId/decision";
+
+  static String markAttendance(String enrollmentId, String sessionId) =>
+      "$baseurl/booking/$enrollmentId/sessions/$sessionId/attendance";
+
+  static String studentById(String studentId) => "$baseurl/students/$studentId";
+
+  static String getChatList(String userId) => "$baseurl/chats/$userId";
+  static String createChatRoom = "$baseurl/chats/create";
+
+  // ---------------- Messages ------------------------
+  static String getChatMessages(String chatRoomId) =>
+      "$baseurl/messages/$chatRoomId";
 }

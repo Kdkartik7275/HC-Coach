@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hicoach_coach/src/profile/controller/profile_controller.dart';
-import 'package:hicoach_coach/src/profile/widgets/info_text.dart';
 
 class CoachAboutTabs extends StatelessWidget {
   const CoachAboutTabs({super.key, required this.controller});
@@ -10,6 +9,7 @@ class CoachAboutTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     final selectedIndex = controller.coachInfoSelectedIndex.value;
 
     return Padding(
@@ -74,6 +74,44 @@ class CoachAboutTabs extends StatelessWidget {
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+
+
+class InfoText extends StatelessWidget {
+  const InfoText({
+    super.key,
+    required this.label,
+    required this.index,
+    required this.selectedIndex,
+    required this.controller,
+  });
+
+  final String label;
+  final int index;
+  final int selectedIndex;
+  final ProfileController controller;
+  @override
+  Widget build(BuildContext context) {
+    final isSelected = index == selectedIndex;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => controller.updateCoachInfoIndex(index),
+        child: Center(
+          child: AnimatedDefaultTextStyle(
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOut,
+            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+              fontSize: 14.sp,
+              fontWeight: isSelected ? FontWeight.normal : FontWeight.w500,
+              color: isSelected ? Colors.black : Colors.grey,
+            ),
+            child: Text(label),
+          ),
         ),
       ),
     );

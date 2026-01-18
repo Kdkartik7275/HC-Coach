@@ -24,7 +24,7 @@ class ProfileSetup extends StatefulWidget {
 class _ProfileSetupState extends State<ProfileSetup> {
   final controller = Get.find<SignUpController>();
 
-  selectSports(String sport) {
+  void selectSports(String sport) {
     controller.selectedSport.value = sport;
     controller.selectedSport.refresh();
   }

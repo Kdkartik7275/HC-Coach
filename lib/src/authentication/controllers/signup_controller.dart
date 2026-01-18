@@ -70,7 +70,7 @@ class SignUpController extends GetxController {
   final _storageService = StorageServices();
   final localStorage = FlutterSecureStorage();
 
-  toggleObsecure() {
+  void toggleObsecure() {
     obsecure.value = !obsecure.value;
   }
 
@@ -130,6 +130,7 @@ class SignUpController extends GetxController {
   Future<void> saveCoach() async {
     try {
       updatingInfo.value = true;
+      final authToken = await localStorage.read(key: LocalStorageKeys.token) ?? "";
       String imageUrl = "";
       String certificateUrl = "";
       String dob = await localStorage.read(key: LocalStorageKeys.dob) ?? "";
@@ -162,7 +163,7 @@ class SignUpController extends GetxController {
         userType: 'Coach',
       );
 
-      final response = await _profileService.createCoach(newCoach);
+      final response = await _profileService.createCoach(newCoach,authToken);
 
       debugPrint(response.toString());
 

@@ -107,6 +107,7 @@ class CreateTrainingProgramController extends GetxController {
     return false;
   }
 
+
   // ---------------------------------------------------------------------------
   // CREATE PROGRAM
   // ---------------------------------------------------------------------------

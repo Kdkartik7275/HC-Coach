@@ -39,11 +39,11 @@ class LoginController extends GetxController {
     }
   }
 
-  toggleRememberMe() {
+  void toggleRememberMe() {
     rememberme.value = !rememberme.value;
   }
 
-  toggleObsecure() {
+  void toggleObsecure() {
     obsecure.value = !obsecure.value;
   }
 

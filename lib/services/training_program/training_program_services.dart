@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:hicoach_coach/common/dialogs/success_dialog.dart';
 import 'package:hicoach_coach/core/constants/app_apis.dart';
 import 'package:hicoach_coach/models/training_program_model.dart';
@@ -17,6 +18,7 @@ class TrainingProgramServices {
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(newTrainingProgram.toJson()),
       );
+      debugPrint('Create Program response: ${response.body}');
       if (response.statusCode == 200 || response.statusCode == 201) {
         final trainingProgram = TrainingProgram.fromJson(
           jsonDecode(response.body)['data'],
@@ -74,13 +76,15 @@ class TrainingProgramServices {
     }
   }
 
-  Future<void> deleteTrainingProgram(String programId) async {
+  Future<void> deleteTrainingProgram(String programId,String authToken) async {
     try {
       final url = Uri.parse(AppApis.deleteTrainingProgram(programId));
 
       final response = await http.delete(
         url,
-        headers: {"Content-Type": "application/json"},
+        headers: {"Content-Type": "application/json",
+        "Authorization": "Bearer $authToken",
+        },
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         showSuccessDialog(jsonDecode(response.body)['message']);

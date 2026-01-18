@@ -24,7 +24,7 @@ class ProgramCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: .04),
             blurRadius: 10,
             offset: Offset(0, 2),
           ),
@@ -38,7 +38,7 @@ class ProgramCard extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: AppColors.border.withOpacity(0.3),
+                  color: AppColors.border.withValues(alpha: .3),
                   width: 1,
                 ),
               ),
@@ -48,7 +48,7 @@ class ProgramCard extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(8.w),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.primary.withValues(alpha: .1),
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Icon(icon, color: AppColors.primary, size: 20.sp),
@@ -56,7 +56,7 @@ class ProgramCard extends StatelessWidget {
                 SizedBox(width: 12.w),
                 Text(
                   title,
-                  style: theme.textTheme.titleMedium?.copyWith(fontSize: 16.sp),
+                  style: theme.textTheme.titleLarge?.copyWith(fontSize: 16.sp),
                 ),
               ],
             ),

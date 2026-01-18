@@ -44,53 +44,47 @@ class CoachResumeWidget extends GetView<ProfileController> {
   }
 
   Widget _certificationSection(BuildContext context) {
+    if (coach.certifications == null || coach.certifications!.isEmpty) {
+      return SizedBox();
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "Certifications",
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            fontWeight: FontWeight.w600,
-            fontSize: 17.sp,
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w500,
           ),
         ),
 
         SizedBox(height: 12.h),
 
-        Container(
-          padding: EdgeInsets.all(12.w),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.r),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(.06),
-                blurRadius: 8,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Wrap(
-            spacing: 12.w,
-            runSpacing: 12.h,
-            children: List.generate(
-              coach.certifications!.length,
-              (index) => GestureDetector(
+        SizedBox(
+          height: 150.h,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: coach.certifications?.length ?? 0,
+            separatorBuilder: (_, _) => SizedBox(width: 12.w),
+            itemBuilder: (context, index) {
+              final certUrl = coach.certifications![index];
+              return GestureDetector(
                 onTap: () => showImageOverlay(
                   context,
                   coach.certifications! as List<String>,
+                  index
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(16.r),
                   child: TCachedNetworkImage(
-                    profileURL: coach.certifications![index],
-                    height: 110.h,
-                    width: 110.w,
+                    profileURL: certUrl,
+                    height: 150.h,
+                    width: 130.w,
                     boxFit: BoxFit.cover,
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ),
 
@@ -114,7 +108,7 @@ Widget _sectionCard(
       borderRadius: BorderRadius.circular(16.r),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(.06),
+          color: Colors.black.withValues(alpha: .06),
           blurRadius: 10,
           offset: Offset(0, 3),
         ),
@@ -126,19 +120,19 @@ Widget _sectionCard(
         Row(
           children: [
             Container(
-              padding: EdgeInsets.all(8.w),
+              padding: EdgeInsets.all(6.w),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(.1),
+                color: AppColors.primary.withValues(alpha: .1),
                 borderRadius: BorderRadius.circular(10.r),
               ),
-              child: Icon(icon, color: AppColors.primary, size: 22.sp),
+              child: Icon(icon, color: AppColors.primary, size: 20.sp),
             ),
             SizedBox(width: 10.w),
             Text(
               title,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w600,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],
@@ -173,6 +167,7 @@ class ExpandableText extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _ExpandableTextState createState() => _ExpandableTextState();
 }
 
@@ -230,7 +225,7 @@ class _ExpandableTextState extends State<ExpandableText> {
               padding: EdgeInsets.only(top: 6.h),
               child: Text(
                 expanded ? "Show less" : "Read more",
-                style: TextStyle(
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w600,
                   fontSize: 13.sp,

@@ -11,6 +11,7 @@ class TrainingProgramCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
     return Container(
       margin: EdgeInsets.only(bottom: 14.h),
       padding: EdgeInsets.all(14.w),
@@ -19,12 +20,12 @@ class TrainingProgramCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: .05),
             blurRadius: 6,
             offset: const Offset(0, 3),
           ),
         ],
-        border: Border.all(color: AppColors.border.withOpacity(0.4)),
+        border: Border.all(color: AppColors.border.withValues(alpha: .4)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,22 +38,22 @@ class TrainingProgramCard extends StatelessWidget {
                   program.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: theme.titleLarge!.copyWith(
                     color: AppColors.text,
                     fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.12),
+                  color: AppColors.primary.withValues(alpha: .12),
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Text(
                   "${program.durationDays} days",
-                  style: TextStyle(
+                  style: theme.titleSmall!.copyWith(
                     color: AppColors.primary,
                     fontSize: 10.sp,
                     fontWeight: FontWeight.w500,
@@ -69,8 +70,9 @@ class TrainingProgramCard extends StatelessWidget {
             program.description,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
+            style: theme.titleSmall!.copyWith(
               color: AppColors.textLighter,
+              fontWeight: FontWeight.normal,
               fontSize: 12.sp,
               height: 1.3,
             ),
@@ -95,10 +97,10 @@ class TrainingProgramCard extends StatelessWidget {
             children: [
               Text(
                 "₹${program.price}",
-                style: TextStyle(
+                style: theme.titleLarge!.copyWith(
                   color: AppColors.green,
                   fontSize: 15.sp,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
 
@@ -120,7 +122,7 @@ class TrainingProgramCard extends StatelessWidget {
                     children: [
                       Text(
                         "Details",
-                        style: TextStyle(
+                        style: theme.titleSmall!.copyWith(
                           color: AppColors.white,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w500,
@@ -157,7 +159,10 @@ class TrainingProgramCard extends StatelessWidget {
           SizedBox(width: 4.w),
           Text(
             label,
-            style: TextStyle(fontSize: 11.sp, color: AppColors.textLighter),
+            style: Theme.of(Get.context!).textTheme.titleSmall!.copyWith(
+              fontSize: 11.sp,
+              color: AppColors.textLighter,
+            ),
           ),
         ],
       ),

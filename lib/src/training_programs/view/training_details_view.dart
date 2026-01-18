@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hicoach_coach/common/indicators/progress_indicators.dart';
 import 'package:hicoach_coach/core/constants/colors.dart';
 import 'package:hicoach_coach/models/training_program_model.dart';
 import 'package:hicoach_coach/src/training_programs/controller/training_programs_controller.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 
 import '../../../core/constants/app_pages.dart';
 
@@ -26,51 +28,65 @@ class TrainingProgramDetailsPage extends GetView<TrainingProgramsController> {
           style: textTheme.titleLarge!.copyWith(fontSize: 18),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (program.thumbnailUrl != null &&
-                program.thumbnailUrl!.isNotEmpty)
-              _thumbnailBanner(program.thumbnailUrl!),
-            const SizedBox(height: 20),
+      body: Obx(
+        () => LoadingOverlay(
+          isLoading: controller.deleting.value,
+          progressIndicator: circularProgress(context),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (program.thumbnailUrl != null &&
+                    program.thumbnailUrl!.isNotEmpty)
+                  ...[_thumbnailBanner(program.thumbnailUrl!),
+                const SizedBox(height: 20)],
 
-            _header(context),
+                _header(context),
 
-            const SizedBox(height: 20),
-            _sectionTitle("Program Overview", textTheme),
+                const SizedBox(height: 20),
+                _sectionTitle("Program Overview", textTheme),
 
-            const SizedBox(height: 10),
-            _infoTile("Sport", program.sport, textTheme),
-            _infoTile("Level", program.level, textTheme),
-            _infoTile("Duration", "${program.durationDays} days", textTheme),
-            _infoTile("Total Sessions", "${program.totalSessions}", textTheme),
-            _infoTile("Frequency", program.frequency.toString(), textTheme),
-            _infoTile(
-              "Price",
-              "₹${program.price.toStringAsFixed(0)}",
-              textTheme,
+                const SizedBox(height: 10),
+                _infoTile("Sport", program.sport, textTheme),
+                _infoTile("Level", program.level, textTheme),
+                _infoTile(
+                  "Duration",
+                  "${program.durationDays} days",
+                  textTheme,
+                ),
+                _infoTile(
+                  "Total Sessions",
+                  "${program.totalSessions}",
+                  textTheme,
+                ),
+                _infoTile("Frequency", program.frequency.toString(), textTheme),
+                _infoTile(
+                  "Price",
+                  "₹${program.price.toStringAsFixed(0)}",
+                  textTheme,
+                ),
+
+                const SizedBox(height: 24),
+                _sectionTitle("About this Program", textTheme),
+                const SizedBox(height: 6),
+                _descriptionBox(program.description, textTheme),
+
+                const SizedBox(height: 20),
+                _sectionTitle("What You Will Learn", textTheme),
+                const SizedBox(height: 6),
+                _bulletBox(program.learningOutcomes, textTheme),
+
+                const SizedBox(height: 20),
+                _sectionTitle("Requirements", textTheme),
+                const SizedBox(height: 6),
+                _bulletBox(program.requirements, textTheme),
+
+                const SizedBox(height: 40),
+                _actionButtons(context),
+              ],
             ),
-
-            const SizedBox(height: 24),
-            _sectionTitle("About this Program", textTheme),
-            const SizedBox(height: 6),
-            _descriptionBox(program.description, textTheme),
-
-            const SizedBox(height: 20),
-            _sectionTitle("What You Will Learn", textTheme),
-            const SizedBox(height: 6),
-            _bulletBox(program.learningOutcomes, textTheme),
-
-            const SizedBox(height: 20),
-            _sectionTitle("Requirements", textTheme),
-            const SizedBox(height: 6),
-            _bulletBox(program.requirements, textTheme),
-
-            const SizedBox(height: 40),
-            _actionButtons(context),
-          ],
+          ),
         ),
       ),
     );
@@ -85,7 +101,7 @@ class TrainingProgramDetailsPage extends GetView<TrainingProgramsController> {
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.08),
+            color: Colors.black.withValues(alpha: .08),
             blurRadius: 10,
             offset: Offset(0, 4),
           ),
@@ -107,13 +123,13 @@ class TrainingProgramDetailsPage extends GetView<TrainingProgramsController> {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.08),
+        color: AppColors.primary.withValues(alpha: .08),
         borderRadius: BorderRadius.circular(14),
       ),
       child: Text(
         program.title,
         textAlign: TextAlign.center,
-        style: textTheme.titleMedium!.copyWith(color: AppColors.primary),
+        style: textTheme.titleLarge!.copyWith(color: AppColors.primary),
       ),
     );
   }
@@ -123,9 +139,9 @@ class TrainingProgramDetailsPage extends GetView<TrainingProgramsController> {
   Widget _sectionTitle(String text, TextTheme textTheme) {
     return Text(
       text,
-      style: textTheme.titleMedium!.copyWith(
-        fontSize: 15,
-        fontWeight: FontWeight.w700,
+      style: textTheme.titleLarge!.copyWith(
+        fontSize: 15.sp,
+        fontWeight: FontWeight.normal,
       ),
     );
   }
@@ -141,15 +157,15 @@ class TrainingProgramDetailsPage extends GetView<TrainingProgramsController> {
           Text(
             label,
             style: textTheme.titleSmall!.copyWith(
-              fontSize: 13,
+              fontSize: 13.sp,
               color: AppColors.textLighter,
             ),
           ),
           Text(
             value,
             style: textTheme.titleSmall!.copyWith(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],
@@ -166,13 +182,13 @@ class TrainingProgramDetailsPage extends GetView<TrainingProgramsController> {
         color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.06),
+            color: Colors.black.withValues(alpha: .06),
             blurRadius: 8,
             offset: Offset(0, 2),
           ),
         ],
       ),
-      child: Text(text, style: textTheme.titleSmall!.copyWith(fontSize: 13)),
+      child: Text(text, style: textTheme.titleSmall!.copyWith(fontSize: 13.sp,fontWeight: FontWeight.w500)),
     );
   }
 
@@ -186,7 +202,7 @@ class TrainingProgramDetailsPage extends GetView<TrainingProgramsController> {
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.06),
+            color: Colors.black.withValues(alpha: .06),
             blurRadius: 8,
             offset: Offset(0, 2),
           ),
@@ -214,7 +230,7 @@ class TrainingProgramDetailsPage extends GetView<TrainingProgramsController> {
         Expanded(
           child: Text(
             text,
-            style: textTheme.titleSmall!.copyWith(fontSize: 13, height: 1.35),
+            style: textTheme.titleSmall!.copyWith(fontSize: 13.sp,fontWeight: FontWeight.normal, height: 1.35),
           ),
         ),
       ],
@@ -231,9 +247,11 @@ class TrainingProgramDetailsPage extends GetView<TrainingProgramsController> {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
+              elevation: 0,
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
+                side: BorderSide.none,
               ),
             ),
             onPressed: () => Get.toNamed(

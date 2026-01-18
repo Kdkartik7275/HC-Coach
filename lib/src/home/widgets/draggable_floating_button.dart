@@ -17,8 +17,8 @@ class DraggableFAB extends StatefulWidget {
 }
 
 class _DraggableFABState extends State<DraggableFAB> {
-  double posX = 180.w;
-  double posY = 600.h;
+  double posX = 190.w;
+  double posY = 550.h;
 
   @override
   Widget build(BuildContext context) {

@@ -15,7 +15,7 @@ class TElevatedButtonTheme {
       disabledBackgroundColor: AppColors.filled,
       side: const BorderSide(color: AppColors.primary),
       padding: const EdgeInsets.all(10),
-      textStyle: GoogleFonts.raleway().copyWith(
+      textStyle: GoogleFonts.aBeeZee().copyWith(
           fontSize: 16, color: AppColors.white, fontWeight: FontWeight.w700),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ),
